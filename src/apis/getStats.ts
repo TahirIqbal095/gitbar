@@ -9,17 +9,14 @@ export default function getStats() {
     const data = useSuspenseQuery({
         queryKey: ["stats"],
         queryFn: async () => {
-            await new Promise((resolve) => setTimeout(resolve, 5000)); // Simulate a slow network request
-            return await octokit.request(
-                "GET /repos/tahiriqbal095/travelapp/stats/commit_activity",
-                {
-                    owner: "OWNER",
-                    repo: "REPO",
-                    headers: {
-                        "X-GitHub-Api-Version": "2022-11-28",
-                    },
-                }
-            );
+            await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a slow network request
+            return await octokit.request(`GET /users/hkirat`, {
+                username: import.meta.env.VITE_USERNAME,
+                headers: {
+                    accept: "application/vnd.github+json",
+                    "X-GitHub-Api-Version": "2022-11-28",
+                },
+            });
         },
     });
     return data;
