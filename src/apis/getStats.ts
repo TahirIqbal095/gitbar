@@ -5,12 +5,12 @@ const octokit = new Octokit({
     auth: import.meta.env.VITE_GITHUB_TOKEN,
 });
 
-export default function getStats() {
+export default function getStats(username: string) {
     const data = useSuspenseQuery({
         queryKey: ["stats"],
         queryFn: async () => {
             await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a slow network request
-            return await octokit.request(`GET /users/hkirat`, {
+            return await octokit.request(`GET /users/${username}`, {
                 username: import.meta.env.VITE_USERNAME,
                 headers: {
                     accept: "application/vnd.github+json",
