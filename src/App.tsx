@@ -1,4 +1,4 @@
-import { GitHubStats } from "./Header";
+import { GitHubStats } from "./GithubStats";
 
 export default function App() {
     return (
