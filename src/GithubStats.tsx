@@ -1,20 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "./components/ui/input";
 import { IoSend } from "react-icons/io5";
 import getStats from "./apis/getStats";
 import { Profile } from "./Profile";
 import { useQuery } from "@tanstack/react-query";
+import MyLoader from "./Loading";
 
 export function GitHubStats() {
     const [username, setUsername] = React.useState<string>("");
-    const { data, refetch } = useQuery({
-        queryKey: ["stats", username],
-        queryFn: () => getStats(username),
+    const [debouncedUsername, setDebouncedUsername] =
+        React.useState<string>("");
+
+    // debounce the input
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedUsername(username);
+        }, 500);
+
+        return () => clearTimeout(handler);
+    }, [username]);
+
+    const { data, refetch, isLoading } = useQuery({
+        queryKey: ["stats", debouncedUsername],
+        queryFn: () => getStats(debouncedUsername),
         enabled: false,
     });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setDebouncedUsername(username);
         refetch();
     };
 
@@ -31,7 +45,6 @@ export function GitHubStats() {
 
                 <form
                     onSubmit={handleSubmit}
-                    action={"submit"}
                     className="relative max-w-[50%] mx-auto"
                 >
                     <Input
@@ -42,14 +55,16 @@ export function GitHubStats() {
                     />
                     <button
                         type="submit"
-                        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gradient-to-r from-blue-600 via-green-500 to-indigo-600 rounded-full p-2"
+                        disabled={!username.trim()}
+                        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gradient-to-r from-blue-600 via-green-500 to-indigo-600 rounded-full p-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed "
                     >
                         <IoSend className="w-6 h-6 text-white" />
                     </button>
                 </form>
             </header>
+
             <main className="mt-6 max-w-[50%] mx-auto">
-                {data && <Profile {...data} />}
+                {isLoading ? <MyLoader /> : data && <Profile data={data} />}
             </main>
         </>
     );
