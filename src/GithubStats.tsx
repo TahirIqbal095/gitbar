@@ -5,6 +5,7 @@ import getStats from "./apis/getStats";
 import { Profile } from "./Profile";
 import { useQuery } from "@tanstack/react-query";
 import MyLoader from "./Loading";
+import { Button } from "./components/ui/button";
 
 export function GitHubStats() {
     const [username, setUsername] = React.useState<string>("");
@@ -53,13 +54,14 @@ export function GitHubStats() {
                         className="w-full bg-zinc-50"
                         onChange={(e) => setUsername(e.target.value)}
                     />
-                    <button
+                    <Button
                         type="submit"
+                        variant={"gradient"}
                         disabled={!username.trim()}
-                        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gradient-to-r from-blue-600 via-green-500 to-indigo-600 rounded-full p-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed "
+                        className="absolute top-1/2 right-2 transform -translate-y-1/2"
                     >
                         <IoSend className="w-6 h-6 text-white" />
-                    </button>
+                    </Button>
                 </form>
             </header>
 
