@@ -66,7 +66,7 @@ export function GitHubStats() {
             </header>
 
             <main className="mt-6 max-w-[50%] mx-auto">
-                {isLoading ? <MyLoader /> : data && <Profile data={data} />}
+                {isLoading ? <MyLoader /> : data && <Profile {...data} />}
             </main>
         </>
     );
