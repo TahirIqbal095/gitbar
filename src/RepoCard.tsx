@@ -11,7 +11,7 @@ export const RepoCard: React.FC<{ repo: Repo }> = ({ repo }) => {
                 <h3 className="text-blue-700 font-medium text-sm">
                     {repo.name}
                 </h3>
-                <p className="bg-green-100 text-green-500 px-2 text-xs border border-green-500 rounded-full inline-block">
+                <p className=" text-green-500 px-2 text-xs border border-green-500 rounded-full inline-block">
                     {repo.visibility}
                 </p>
             </div>

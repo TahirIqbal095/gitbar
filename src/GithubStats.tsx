@@ -4,7 +4,7 @@ import { IoSend } from "react-icons/io5";
 import getStats from "./apis/getStats";
 import { Profile } from "./Profile";
 import { useQuery } from "@tanstack/react-query";
-import MyLoader from "./Loading";
+import ProfileSkeleton from "./components/loading-skeleton/Profile";
 import { Button } from "./components/ui/button";
 import { NotFound } from "./404";
 
@@ -70,7 +70,7 @@ export function GitHubStats() {
 
             <main className="mt-6 max-w-[50%] mx-auto">
                 {isLoading ? (
-                    <MyLoader />
+                    <ProfileSkeleton />
                 ) : status === "error" ? (
                     <NotFound />
                 ) : (

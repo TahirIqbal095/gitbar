@@ -2,6 +2,7 @@ import { RepoCard } from "./RepoCard";
 import { GitHubUser, Repo } from "./types/types";
 import { getRepos } from "./apis/getStats";
 import { useQuery } from "@tanstack/react-query";
+import RepoSkeleton from "./components/loading-skeleton/Repo";
 
 export function Profile(profile: GitHubUser) {
     const { data, isLoading } = useQuery({
@@ -68,9 +69,9 @@ export function Profile(profile: GitHubUser) {
                     <h1 className="text-xl font-bold">
                         Repositories: {profile.public_repos}
                     </h1>
-                    <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {isLoading ? (
-                            <div>loading...</div>
+                            <RepoSkeleton times={4} />
                         ) : (
                             data &&
                             data
