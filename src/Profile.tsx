@@ -1,5 +1,5 @@
 import { RepoCard } from "./RepoCard";
-import { GitHubUser } from "./types/types";
+import { GitHubUser, Repo } from "./types/types";
 import { getRepos } from "./apis/getStats";
 import { useQuery } from "@tanstack/react-query";
 
@@ -8,8 +8,6 @@ export function Profile(profile: GitHubUser) {
         queryKey: ["repos", profile.login],
         queryFn: () => getRepos(profile.login),
     });
-
-    console.log(data);
 
     return (
         <div>
@@ -50,7 +48,7 @@ export function Profile(profile: GitHubUser) {
                 </div>
             </div>
 
-            <div className="border border-gray-200 mt-4 p-4 rounded-md">
+            <div className="border border-gray-200 mt-4 p-4 rounded-md space-y-4 text-gray-700">
                 <div className="flex justify-around border-b border-gray-200 pb-4">
                     <div className="flex flex-col items-center">
                         <h1 className="text-2xl font-bold">
@@ -66,11 +64,35 @@ export function Profile(profile: GitHubUser) {
                     </div>
                 </div>
 
-                {isLoading ? (
-                    <div>loading...</div>
-                ) : (
-                    data && <RepoCard repo={data} />
-                )}
+                <div>
+                    <h1 className="text-xl font-bold">
+                        Repositories: {profile.public_repos}
+                    </h1>
+                    <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                        {isLoading ? (
+                            <div>loading...</div>
+                        ) : (
+                            data &&
+                            data
+                                .slice(0, 4)
+                                .map((r: Repo) => (
+                                    <RepoCard key={r.id} repo={r} />
+                                ))
+                        )}
+                    </div>
+                    {data && data.length > 4 && (
+                        <div className="mt-4">
+                            <a
+                                href={profile.html_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-blue-700 underline"
+                            >
+                                View All Repositories
+                            </a>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

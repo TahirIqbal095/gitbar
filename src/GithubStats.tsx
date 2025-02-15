@@ -6,6 +6,7 @@ import { Profile } from "./Profile";
 import { useQuery } from "@tanstack/react-query";
 import MyLoader from "./Loading";
 import { Button } from "./components/ui/button";
+import { NotFound } from "./404";
 
 export function GitHubStats() {
     const [username, setUsername] = React.useState<string>("");
@@ -21,11 +22,13 @@ export function GitHubStats() {
         return () => clearTimeout(handler);
     }, [username]);
 
-    const { data, refetch, isLoading } = useQuery({
+    const { data, refetch, isLoading, status } = useQuery({
         queryKey: ["stats", debouncedUsername],
         queryFn: () => getStats(debouncedUsername),
         enabled: false,
     });
+
+    console.log(data);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -66,7 +69,13 @@ export function GitHubStats() {
             </header>
 
             <main className="mt-6 max-w-[50%] mx-auto">
-                {isLoading ? <MyLoader /> : data && <Profile {...data} />}
+                {isLoading ? (
+                    <MyLoader />
+                ) : status === "error" ? (
+                    <NotFound />
+                ) : (
+                    data && <Profile {...data} />
+                )}
             </main>
         </>
     );
