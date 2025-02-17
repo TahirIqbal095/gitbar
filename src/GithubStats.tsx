@@ -53,7 +53,7 @@ export function GitHubStats() {
                 >
                     <Input
                         type="text"
-                        placeholder="Enter your Github Username"
+                        placeholder="Enter any Github Username"
                         className="w-full bg-zinc-50"
                         onChange={(e) => setUsername(e.target.value)}
                     />
