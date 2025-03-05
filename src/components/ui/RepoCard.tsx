@@ -1,5 +1,5 @@
 import React from "react";
-import { Repo } from "./types/types";
+import { Repo } from "../../types/types";
 import { FaCodeFork } from "react-icons/fa6";
 import { CiStar } from "react-icons/ci";
 import { FaEye } from "react-icons/fa";
